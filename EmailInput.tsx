@@ -19,6 +19,7 @@ const COLORS = {
 const EmailInput = ({
   value,
   onChangeText,
+  onBlur: customOnBlur,
   label = 'Correo electrónico',
   placeholder = 'Escribe tu correo electrónico',
   error,
@@ -28,7 +29,12 @@ const EmailInput = ({
   const inputRef = useRef(null);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleBlur = () => {
+    setIsFocused(false);
+    if (customOnBlur) {
+      customOnBlur();
+    }
+  };
 
   const hasValue = value.length > 0;
   const hasError = Boolean(error);

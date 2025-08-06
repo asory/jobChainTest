@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Button, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Button, StyleSheet, Alert } from 'react-native';
 import EmailInput from './EmailInput';
 
 const validateEmail = (email: string) => {
@@ -12,21 +12,15 @@ const validateEmail = (email: string) => {
 
 const App = () => {
   const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
 
-  const handleLogin = () => {
-    const error = validateEmail(email);
-    setEmailError(error);
-    if (!error) {
-      alert(`Email válido: ${email}`);
-    }
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
   };
 
-  const handleEmailChange = text => {
-    if (emailError) {
-      setEmailError(null);
-    }
-    setEmail(text);
+  const handleEmailBlur = () => {
+    const error = validateEmail(email);
+    setEmailError(error);
   };
 
   return (
@@ -35,6 +29,7 @@ const App = () => {
         <EmailInput
           value={email}
           onChangeText={handleEmailChange}
+          onBlur={handleEmailBlur}
           error={emailError}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -48,7 +43,7 @@ const App = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#e9e9efff',
+    backgroundColor: '#f6f6f6ff',
     justifyContent: 'center',
   },
   form: {
